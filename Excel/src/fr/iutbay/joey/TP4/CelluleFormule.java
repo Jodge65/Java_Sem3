@@ -7,16 +7,16 @@ public class CelluleFormule extends Cellule
 	/** formule utilisé pour le calcul */
 	protected String formule;
 	protected FeuilleDeCalcul base;
-	
-
 
 	/**
-	 * Constructeur Cellule 
+	 * Constructeur Cellule
 	 * 
-	 * @param formule (String) formule à calculer puis affiché
-	 * @param base (String) feuille de calcul utilisé pour les calculs
+	 * @param formule
+	 *            (String) formule à calculer puis affiché
+	 * @param base
+	 *            (String) feuille de calcul utilisé pour les calculs
 	 */
-	CelluleFormule (String formule, FeuilleDeCalcul base)
+	CelluleFormule(String formule, FeuilleDeCalcul base)
 	{
 		this.formule = formule;
 		this.base = base;
@@ -27,21 +27,29 @@ public class CelluleFormule extends Cellule
 	private double calculerFormule()
 	{
 		double resultat = 0;
-		
-		String a = formule.substring(0, 2);
-		String function = formule.substring(2, 3);
-		String b = formule.substring(3, 5);
 
+		String tmp[];
 		Map<String, Cellule> temps = base.getTableau();
-		if(temps.containsKey(a) && temps.containsKey(b))
-			if(function.equalsIgnoreCase("+"))
-				resultat = temps.get(a).getValue() + temps.get(b).getValue();
-			else if (function.equalsIgnoreCase("-"))
-				resultat = temps.get(a).getValue() - temps.get(b).getValue();
-			else if (function.equalsIgnoreCase("*"))
-				resultat = temps.get(a).getValue() * temps.get(b).getValue();
-			else if (function.equalsIgnoreCase("/"))
-				resultat = temps.get(a).getValue() / temps.get(b).getValue();
+		if (formule.contains("+"))
+		{
+			tmp = formule.split("\\+");
+			resultat = temps.get(tmp[0]).getValue() + temps.get(tmp[1]).getValue();
+		}
+		else if (formule.contains("-"))
+		{
+			tmp = formule.split("\\-");
+			resultat = temps.get(tmp[0]).getValue() - temps.get(tmp[1]).getValue();
+		}
+		else if (formule.contains("*"))
+		{
+			tmp = formule.split("\\*");
+			resultat = temps.get(tmp[0]).getValue() * temps.get(tmp[1]).getValue();
+		}
+		if (formule.contains("/"))
+		{
+			tmp = formule.split("\\/");
+			resultat = temps.get(tmp[0]).getValue() / temps.get(tmp[1]).getValue();
+		}
 
 		value = resultat;
 		return resultat;
@@ -52,7 +60,7 @@ public class CelluleFormule extends Cellule
 	{
 		return formule;
 	}
-	
+
 	public FeuilleDeCalcul getBase()
 	{
 		return base;
@@ -64,6 +72,7 @@ public class CelluleFormule extends Cellule
 		this.formule = formule;
 		return this;
 	}
+
 	public CelluleFormule setBase(FeuilleDeCalcul base)
 	{
 		this.base = base;
