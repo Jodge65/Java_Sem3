@@ -5,8 +5,13 @@ import java.util.List;
 
 public class ChampDeBatail
 {
+	/** Liste de tous les char sur le champs de bataille*/
 	public List<CharBase> tank = new ArrayList<CharBase>();
 	
+	/**
+	 * Constructeur normal
+	 * @param arg... (CharBase) entre 0 et +infini char par champs de batail
+	 */
 	ChampDeBatail(CharBase... arg)
 	{
 		for(CharBase i : arg)
@@ -16,6 +21,9 @@ public class ChampDeBatail
 		trierIni();
 	}
 	
+	/**
+	 * Trie par initiative croissant les chars du champs
+	 */
 	public void trierIni()
 	{
 		int nbTank = tank.size();

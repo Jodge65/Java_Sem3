@@ -6,15 +6,14 @@ public class CelluleFormule extends Cellule
 {
 	/** formule utilisé pour le calcul */
 	protected String formule;
+	/** Feuille de calcul (utilisé pour obtenir les valeurs des autres cellule)*/
 	protected FeuilleDeCalcul base;
 
 	/**
 	 * Constructeur Cellule
 	 * 
-	 * @param formule
-	 *            (String) formule à calculer puis affiché
-	 * @param base
-	 *            (String) feuille de calcul utilisé pour les calculs
+	 * @param formule (String) formule à calculer puis affiché
+	 * @param base (String) feuille de calcul utilisé pour les calculs
 	 */
 	CelluleFormule(String formule, FeuilleDeCalcul base)
 	{
@@ -23,7 +22,11 @@ public class CelluleFormule extends Cellule
 		value = calculerFormule();
 	}
 
-	// --- FUNCTION ---
+	// --- ALL --- //
+	/**
+	 * 
+	 * @return (double) retourne la valeur du résultat calculer
+	 */
 	private double calculerFormule()
 	{
 		double resultat = 0;

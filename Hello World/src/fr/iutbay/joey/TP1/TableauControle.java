@@ -5,8 +5,8 @@ public class TableauControle
 	public static void main (String [] args)
 	{
 		/* QUESTION :
-		 *  1 ) scr : les classes que l'on a créer (et les packages) en .java (fichier éditable)
-		 *  2 ) bin : les classes que l'on a créer (et les packages) en .class (compilé, et protegé)
+		 *  1 ) scr : les classes que l'on a créé (et les packages) en .java (fichier éditable)
+		 *  2 ) bin : les classes que l'on a créé (et les packages) en .class (compilé, et protegé)
 		 * 
 		 */
 		int[] tab = { 5, 8, 9, 4, 2, 8, 4, 1, 6, 10 };
@@ -42,10 +42,6 @@ public class TableauControle
 			}
 			System.out.println("#" + choix + "# --------------------------------------------------------------------");
 		}while(choix != 0);
-
-		
-
-
 
 
 	}

@@ -22,6 +22,12 @@ public class CharBouclier extends CharBase
 		initiative = 75.0F; 
 	}
 	
+// --- SET --- //
+	/**
+	 * Ne peut pas être supérieur a bouclier
+	 * @param value (int) nombre de bouclier restant
+	 * @return (CharBase) retourne lui même
+	 */
 	public CharBouclier setBouclierRestant(int value)
 	{
 		if (value > bouclier)
@@ -30,12 +36,20 @@ public class CharBouclier extends CharBase
 		bouclierRestant = value;
 		return this;
 	}
+	
+	/**
+	 * Ne peut pas être supérieur a bouclier
+	 * @param value (int) nombre de bouclier max
+	 * @return (CharBase) retourne lui même
+	 */
 	public CharBouclier setBouclier(int value)
 	{
 		bouclier = value;
 		return this;
 	}
+
 	
+// --- SET --- //
 	public int getBouclier()
 	{
 		return bouclier;
@@ -46,6 +60,7 @@ public class CharBouclier extends CharBase
 		return bouclierRestant;
 	}
 	
+// --- ALL --- //
 	@Override
 	public boolean etreToucher(float value)
 	{

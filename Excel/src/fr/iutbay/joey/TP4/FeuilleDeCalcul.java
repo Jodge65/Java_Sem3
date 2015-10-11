@@ -6,7 +6,9 @@ import java.util.Map;
 
 public class FeuilleDeCalcul
 {
+	/** Nom de la feuille de calcul */
 	protected String nom;
+	/** intégralité des case du tableau */
 	Map<String, Cellule> tableau;
 	
 	/**
@@ -25,7 +27,12 @@ public class FeuilleDeCalcul
 		tableau = tabArg;
 	}
 	
-	// --- FUNCTION ---
+	// --- ALL --- //
+	/**
+	 * 
+	 * @param key (String) ID de la celulle
+	 * @param value (Cellule) cellule a introduire a cette place
+	 */
 	public void addCellule(String key, Cellule value)
 	{
 		tableau.put(key, value);
@@ -47,11 +54,14 @@ public class FeuilleDeCalcul
 		
 		return affichage;
 	}
+	/**
+	 * affiche la cellule (utilisé la formule toString())
+	 */
 	public void afficher()
 	{
 		System.out.println(toString());
 	}
-	// --- GET ---
+	// --- GET --- //
 	public String getNom()
 	{
 		return nom;
@@ -61,7 +71,7 @@ public class FeuilleDeCalcul
 		return tableau;
 	}
 	
-	// --- SET ---
+	// --- SET --- //
 	public FeuilleDeCalcul setNom(String nom)
 	{
 		this.nom = nom;

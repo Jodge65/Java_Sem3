@@ -18,10 +18,14 @@ public class CharBase implements CharFunction
 		canon_1("Faible canon", 1.0F),
 		canon_30("Canon moine", 30.0F),
 		canon_100("Canon kamikaze", 100.0F),
-		canon_0("Canon neutre", 0.0F),
+		canon_0("Canon neutre", 0.0F),	
 		canon_N15("Canon soin", -15.0F),
+		canon_N10("Canon soin", -10.0F),
+		canon_N30("Canon soin", -30.0F),
+		canon_N100("Canon soin", -100.0F),
 		canon_15("Canon moyen", 15.0F);
 		
+
 		
 		String nom;
 		float degat;
@@ -43,7 +47,7 @@ public class CharBase implements CharFunction
 		{
 			Armes weapon = null;
 			Random rand = new Random();
-			switch(rand.nextInt(7))
+			switch(rand.nextInt(10))
 			{
 				case 0: weapon = canon_10; 		break;
 				case 1: weapon = canon_1; 		break;
@@ -52,6 +56,9 @@ public class CharBase implements CharFunction
 				case 4: weapon = canon_0;		break;
 				case 5: weapon = canon_N15;		break;
 				case 6: weapon = canon_15;		break;
+				case 7: weapon = canon_10;		break;
+				case 8: weapon = canon_30;		break;
+				case 9: weapon = canon_100;		break;
 			}
 			
 			return weapon;
@@ -82,11 +89,16 @@ public class CharBase implements CharFunction
 	protected boolean isAlive;
 	
 	// --- Malus --- //
+	/** Si > 0 alors chaque tour, la cible subit des dégats.*/
 	public int nbTourOnFire;
 	
 	// --- Static --- //
+	/** Permet de définir un ID automatiquement.*/
 	private static int identifiant = 0;
 	
+	/**
+	 * Constructeur
+	 */
 	public CharBase()
 	{
 		id = identifiant;
@@ -103,11 +115,21 @@ public class CharBase implements CharFunction
 	}
 	
 // --- SET --- //	
+	/**
+	 * @param value (Armes) Armes par défaut du char (définis sa puissance d'attaque)
+	 * @return (CharBase) retourne lui même
+	 */
 	public CharBase setArme(Armes value)
 	{
 		arme = value;
 		return this;
 	}
+	
+	/**
+	 * Ne peut pas être supérieur a carburantMax
+	 * @param value (float) carburant par défaut du char (définis sa vie)
+	 * @return (CharBase) retourne lui même
+	 */
 	public CharBase setCarburant(float value)
 	{
 		if (value > carburantMax)
@@ -116,21 +138,41 @@ public class CharBase implements CharFunction
 		carburant = value;
 		return this;
 	}
+	
+	/**
+	 * @param value (float) carburant max du char (définis sa vie max en cas de soin)
+	 * @return (CharBase) retourne lui même
+	 */
 	public CharBase setCarburantMax(float value)
 	{
 		carburantMax = value;
 		return this;
 	}
+	
+	/**
+	 * @param value (String) nom par défaut du char (définis son nom)
+	 * @return (CharBase) retourne lui même
+	 */
 	public CharBase setNom(String value)
 	{
 		nom = value;
 		return this;
 	}
+	
+	/**
+	 * @param value (String) Description par défaut du char (décrit ses effets)
+	 * @return (CharBase) retourne lui même
+	 */
 	public CharBase setDescription(String value)
 	{
 		description = value;
 		return this;
 	}
+	
+	/**
+	 * @param value (Float) Initiative par défaut (plus la valeur est faible, plus l'attaque sera prioritaire, mais la séléction comme cible aussi)
+	 * @return (CharBase) retourne lui même
+	 */
 	public CharBase setInitiative(float value)
 	{
 		initiative = value;

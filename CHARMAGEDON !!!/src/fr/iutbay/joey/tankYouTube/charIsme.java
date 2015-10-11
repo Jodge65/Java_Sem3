@@ -10,6 +10,7 @@ import fr.iutbay.joey.base.CharBase;
  */
 public class charIsme extends CharBase
 {
+	/** valeur de dégat bonus (+5 par tour, +30 max)*/
 	protected float swag;
 	
 	public charIsme()
@@ -28,8 +29,17 @@ public class charIsme extends CharBase
 	public float attaquer(CharBase cible)
 	{
 		float dommage = super.attaquer(cible);
-		cible.etreToucher(swag);
-		return dommage + swag;
+		if(dommage < 0)
+		{
+			cible.etreToucher(-swag);
+			return dommage - swag;
+		}
+		else
+		{
+			cible.etreToucher(swag);
+			return dommage + swag;
+		}
+			
 	}
 	
 	@Override

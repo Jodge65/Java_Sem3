@@ -24,9 +24,10 @@ public class Main
 	public static void main (String [] args)
 	{
 
+
 		
-		ChampDeBatail a = new ChampDeBatail(new CharBase(), new CharAgile(), new SparaChar(), new CharBouclier(), new CharWabbajack(), new charIsme(), new CharKamikaze(), new CharMoine(), new Charmander(), new GrosChar(), new CharDK(), new CharBase(), new CharAgile(), new SparaChar(), new CharBouclier(), new CharWabbajack(), new charIsme(), new CharKamikaze(), new CharMoine(), new Charmander(), new GrosChar(), new CharDK());
-		ChampDeBatail b = new ChampDeBatail(new CharBase(), new CharAgile(), new SparaChar(), new CharBouclier(), new CharWabbajack(), new charIsme(), new CharKamikaze(), new CharMoine(), new Charmander(), new GrosChar(), new CharDK(), new CharBase(), new CharAgile(), new SparaChar(), new CharBouclier(), new CharWabbajack(), new charIsme(), new CharKamikaze(), new CharMoine(), new Charmander(), new GrosChar(), new CharDK());
+		ChampDeBatail a = new ChampDeBatail(new CharBase(), new CharAgile(), new SparaChar(), new CharBouclier(), new CharWabbajack(), new charIsme(), new CharKamikaze(), new CharMoine(), new Charmander(), new GrosChar(), new CharDK(), new CharBase(), new CharAgile(), new SparaChar(), new CharBouclier(), new CharWabbajack(), new charIsme(), new CharKamikaze(), new CharMoine(), new Charmander(), new GrosChar(), new CharDK(), new CharBase(), new CharAgile(), new SparaChar(), new CharBouclier(), new CharWabbajack(), new charIsme(), new CharKamikaze(), new CharMoine(), new Charmander(), new GrosChar(), new CharDK(), new CharBase(), new CharAgile(), new SparaChar(), new CharBouclier(), new CharWabbajack(), new charIsme(), new CharKamikaze(), new CharMoine(), new Charmander(), new GrosChar(), new CharDK());
+		ChampDeBatail b = new ChampDeBatail(new CharBase(), new CharAgile(), new SparaChar(), new CharBouclier(), new CharWabbajack(), new charIsme(), new CharKamikaze(), new CharMoine(), new Charmander(), new GrosChar(), new CharDK(), new CharBase(), new CharAgile(), new SparaChar(), new CharBouclier(), new CharWabbajack(), new charIsme(), new CharKamikaze(), new CharMoine(), new Charmander(), new GrosChar(), new CharDK(), new CharBase(), new CharAgile(), new SparaChar(), new CharBouclier(), new CharWabbajack(), new charIsme(), new CharKamikaze(), new CharMoine(), new Charmander(), new GrosChar(), new CharDK(), new CharBase(), new CharAgile(), new SparaChar(), new CharBouclier(), new CharWabbajack(), new charIsme(), new CharKamikaze(), new CharMoine(), new Charmander(), new GrosChar(), new CharDK());
 		
 		//ChampDeBatail a = new ChampDeBatail(test1);
 		//ChampDeBatail b = new ChampDeBatail(test4);
@@ -36,6 +37,7 @@ public class Main
 		
 		int NB_TANK_A = tankA.size();
 		int NB_TANK_B = tankB.size();
+		
 		
 		boolean combatIsOver = ((NB_TANK_A == 0) || (NB_TANK_B == 0)); // si A ou B est vide alors true
 		
