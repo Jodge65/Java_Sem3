@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<employes>
+ <employe id="1111" type="admin">
+ <prenom>John</prenom>
+ <nom>Watson</nom>
+ <age>30</age>
+ <email>johnwatson@sh.com</email>
+ </employe>
+ <employe id="2222" type="admin">
+ <prenom>Sherlock</prenom>
+ <nom>Homes</nom>
+ <age>32</age>
+ <email>sherlock@sh.com</email>
+ </employe>
+ <employe id="3333" type="user">
+ <prenom>Jim</prenom>
+ <nom>Moriarty</nom>
+ <age>52</age>
+ <email>jim@sh.com</email>
+ </employe>
+ <employe id="4444" type="user">
+ <prenom>Mycroft</prenom>
+ <nom>Holmes</nom>
+ <age>41</age>
+ <email>mycroft@sh.com</email>
+ </employe>
+</employes> 
