@@ -28,14 +28,15 @@ import javax.swing.SwingConstants;
 public class FenetreChronometre extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private JTextField nbMinutes, nbSecondes, minuteur;
-	private JButton plus, moins, reset, capture;
-	private JLabel textMinutes, textSecondes;
-	private JComboBox<String> choixMesure;
-	protected boolean onSeconde;
-	protected boolean isOn = false;
-	protected Thread t;
-	protected int seconde, minutes;
+	public static JTextField nbMinutes, nbSecondes, minuteur;
+	public static JButton plus, moins, reset, capture;
+	public static JLabel textMinutes, textSecondes;
+	public static JComboBox<String> choixMesure;
+	public static boolean onSeconde;
+	public static boolean isOn = false;
+	public static Thread threadTimer;
+	public static MainServeur serverCommand;
+	public static int seconde, minutes;
 	
 	public FenetreChronometre() {
 		super("Chronomètre");
@@ -137,6 +138,8 @@ public class FenetreChronometre extends JFrame {
 		reset.addActionListener(new ClicReset());
 		choixMesure.addActionListener(new ClicChoixMesure());
 
+		serverCommand = new MainServeur();
+		serverCommand.start();
 		pack();
 		setVisible(true);
 	}
@@ -231,8 +234,8 @@ public class FenetreChronometre extends JFrame {
 			if(!isOn)
 			{
 				isOn = true;
-				Thread t = new TimerThread();
-				t.start();
+				threadTimer = new TimerThread();
+				threadTimer.start();
 				plus.setEnabled(false);
 				choixMesure.setEnabled(false);
 				moins.setEnabled(true);
@@ -279,10 +282,11 @@ public class FenetreChronometre extends JFrame {
 	
 	private class ActionClose extends WindowAdapter
 	{
-
 		@Override
 		public synchronized void windowClosing(WindowEvent arg0)
 		{
+			try{serverCommand.socketServeur.close();}catch (IOException e1){}
+			
 			System.out.println("[INFORMATION] Démarrage de la procédure de sauvegarde");
 			String nom = "chronometre.ser";
 			boolean succes = true;
