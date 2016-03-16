@@ -19,14 +19,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.SwingConstants;
 
 import fr.iutbay.dns_poisoning.dns.DNS;
 import fr.iutbay.dns_poisoning.hacker.FunctionHacker;
 import fr.iutbay.dns_poisoning.hacker.JColorTextPane;
-
-
 
 public class BaseWindows extends JFrame implements ComponentListener
 {
@@ -41,6 +43,9 @@ public class BaseWindows extends JFrame implements ComponentListener
 	private static JTextField hackerWriter;
 	public static int WIDTH = 640/2;
 	public static int HEIGHT = 347/2;
+	public static List<String> oldCommand;
+	public static int indexList;
+	public static TimerThread timer;
 	
 	public BaseWindows()
 	{
@@ -48,9 +53,10 @@ public class BaseWindows extends JFrame implements ComponentListener
 		
 		createWindow();
 		setVisible(true);
-		TimerThread timer = new TimerThread(horloge, 10);
+		oldCommand = new ArrayList<String>();
+		indexList = 0;
+		timer = new TimerThread(horloge, 10);
 		timer.run();
-
 	}
 	
 	public void createWindow()
@@ -121,9 +127,10 @@ public class BaseWindows extends JFrame implements ComponentListener
 		siteChooser.addItem("www.youtube.fr");
 		siteChooser.addItem("www.wikipedia.org");
 
-		
+		hackerWriter.addKeyListener(new KeyHackerValidate());
 		hackerWriter.addActionListener(new ActionHackerValidate());
 		siteChooser.addActionListener(new ActionSiteChoose());
+		
 		
 		this.addComponentListener(this);
 		pack();
@@ -142,6 +149,56 @@ public class BaseWindows extends JFrame implements ComponentListener
 			hackerScreen.appendDoc("@user> ", Color.LIGHT_GRAY);
 		hackerScreen.appendDoc(line, c);
 	}
+
+	private class KeyHackerValidate implements KeyListener
+	{
+
+		@Override
+		public void keyPressed(KeyEvent arg0)
+		{
+			boolean somethinkToDo = false;
+			int key = arg0.getKeyCode();
+			switch (key)
+			{
+				case 38: // haut
+					indexList--;
+					somethinkToDo = true;
+					break;
+				case 40: // bas
+					indexList++;
+					somethinkToDo = true;
+					break;
+			}
+			
+			if(somethinkToDo)
+			{
+				if(!oldCommand.isEmpty())
+				{
+					if(indexList < 0)
+						indexList = 0;
+					else if (indexList > oldCommand.size()-1)
+						indexList = oldCommand.size()-1;
+
+					hackerWriter.setText(oldCommand.get(indexList));
+				}
+			}
+		}
+
+		@Override
+		public void keyReleased(KeyEvent arg0)
+		{
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void keyTyped(KeyEvent arg0)
+		{
+			// TODO Auto-generated method stub
+			
+		}
+		
+	}
 	
 	private class ActionHackerValidate implements ActionListener
 	{
@@ -150,6 +207,8 @@ public class BaseWindows extends JFrame implements ComponentListener
 		{
 			String line = hackerWriter.getText();
 			hackerWriter.setText("");
+			oldCommand.add(line);
+			indexList = oldCommand.size();
 			writeOnScreen(line + "\n", true);
 			FunctionHacker.performCommand(line);
 		}

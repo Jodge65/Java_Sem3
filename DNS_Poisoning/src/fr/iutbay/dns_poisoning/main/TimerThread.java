@@ -13,28 +13,28 @@ import fr.iutbay.dns_poisoning.hacker.Exploit;
 public class TimerThread extends Thread
 {
 	/** <i>int</i> define internal clock speed. 1 = 333 tick per seconds, 333 = 1 tick per seconds. each tick add 1 minutes to the current time*/
-	private int horlogeInterne;
+	public int horlogeInterne;
 	/** <i>JLabel</i> label where th etime will be display*/
-	private JLabel timer;
+	public JLabel timer;
 	/** <i>int</i> actual tick. Each 60 tick (60minutes in game) index come back to 0, and and hour update */
-	private int indexTimer = 0;
+	public int indexTimer = 0;
 	
 	/** actual minutes in game */
-	private int minutes;
+	public int minutes;
 	/** actual hour in game */
-	private int heure;
+	public int heure;
 	/** actual day in game */
-	private int jour;
+	public int jour;
 	/** actual index of the day (0 = lundi, 6 = dimanche) */
-	private int jourSemaine;
+	public int jourSemaine;
 	/** actual month in game */
-	private int moisAnnee;
+	public int moisAnnee;
 	/** actual year in game */
-	private int annee;
+	public int annee;
 	/** tab referencing all the day name from 0 = lundi, to 6 = dimanche */
-	private static String[] CONTANTE_JOUR = {"Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"};
+	public static String[] CONTANTE_JOUR = {"Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"};
 	/** tab referencing all the month name from 0 = Janvier, to 11 = Décembre */
-	private static String[] CONTANTE_MOIS = {"Janvier", "Févirer", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Décembre"};
+	public static String[] CONTANTE_MOIS = {"Janvier", "Févirer", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Décembre"};
 	
 	/**
 	 * Default constructor
@@ -159,12 +159,15 @@ public class TimerThread extends Thread
 					jourSemaine = 0;
 			}
 		}
-				
-		String newDate = CONTANTE_JOUR[jourSemaine] + " " + jour + " " + CONTANTE_MOIS[moisAnnee] + " " + annee  + " - " + heure  + ":" + (minutes<10?"0"+minutes:minutes) ;
-		
-		return newDate;
+						
+		return getDate();
 	}
+	
+	public String getDate()
+	{
+		return CONTANTE_JOUR[jourSemaine] + " " + jour + " " + CONTANTE_MOIS[moisAnnee] + " " + annee  + " - " + heure  + ":" + (minutes<10?"0"+minutes:minutes) ;
 
+	}
 	private int getNbJour()
 	{
 		switch(moisAnnee)

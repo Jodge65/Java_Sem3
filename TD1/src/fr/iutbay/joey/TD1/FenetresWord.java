@@ -137,8 +137,6 @@ public class FenetresWord extends JFrame
 	{
 		return mapKey.get(key);
 	}	
-
-	
 	
 	public void saveLog(String nom)
 	{

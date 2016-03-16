@@ -5,7 +5,7 @@ import java.util.Map;
 
 /**
  * @author Florian & Joey
- * @version A0.0.0
+ * @version A0.0.1
  * Creation : 29/02/2016
  * Last modification : 29/02/2016
  * 
@@ -21,9 +21,9 @@ public class DNS_simulator
 	protected Map<String, String> cache;
 
 	/** int of the time (in hour) when the cache is clean*/
-	protected int timeBetweenTwoClean;
+	public int timeBetweenTwoClean;
 	/** int of the actual tic time*/
-	private int actualTic;
+	public int actualTic;
 
 	public DNS_simulator(String name)
 	{
@@ -43,6 +43,7 @@ public class DNS_simulator
 		urlOwner = new HashMap<String, String>();
 		timeBetweenTwoClean = interval;
 		actualTic = 0;
+		DNS.referenceDNS(this.getName(), this);
 	}
 	
 	/**

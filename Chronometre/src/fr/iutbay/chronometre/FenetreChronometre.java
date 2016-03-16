@@ -7,6 +7,15 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -23,13 +32,41 @@ public class FenetreChronometre extends JFrame {
 	private JButton plus, moins, reset, capture;
 	private JLabel textMinutes, textSecondes;
 	private JComboBox<String> choixMesure;
-	protected boolean onSeconde = true;
+	protected boolean onSeconde;
 	protected boolean isOn = false;
 	protected Thread t;
 	protected int seconde, minutes;
 	
 	public FenetreChronometre() {
 		super("Chronomètre");
+		addWindowListener(new ActionClose());
+		
+		String nom = "chronometre.ser";
+		String textMinuteur = "00:00";
+		minutes = 0;
+		seconde = 0;
+		onSeconde = true;
+		File file = new File(nom);
+		if(file.exists())
+		{
+			ObjectInputStream flotLecture;
+			EtatChronometre etat;
+			try
+			{
+				flotLecture = new ObjectInputStream(new FileInputStream(file));
+				etat = (EtatChronometre)flotLecture.readObject();
+				textMinuteur = etat.getCaptureTime();
+				minutes = etat.getActualMinute();
+				seconde = etat.getActualSeconde();
+				onSeconde = etat.getModeSeconde();
+			}
+			catch (FileNotFoundException e){}
+			catch (IOException e){}
+			catch (ClassNotFoundException e){}
+		}
+
+		
+
 		getContentPane().setLayout(new BorderLayout());
 	 
 		JPanel panel = new JPanel();
@@ -53,7 +90,7 @@ public class FenetreChronometre extends JFrame {
 		minuteur = new JTextField();
 		minuteur.setHorizontalAlignment(SwingConstants.CENTER);
 		minuteur.setFont(new Font("Tahoma", Font.ITALIC, 20));
-		minuteur.setText("00:00");
+		minuteur.setText(textMinuteur);
 		panel_1.add(minuteur);
 		minuteur.setColumns(5);
 		  
@@ -63,6 +100,7 @@ public class FenetreChronometre extends JFrame {
 		choixMesure = new JComboBox<String>();
 		choixMesure.addItem("Min:Sec");
 		choixMesure.addItem("Sec:1/100");
+		choixMesure.setSelectedIndex(onSeconde?0:1);
 		panel_1.add(choixMesure);
 		  
 		JPanel panel_2 = new JPanel();
@@ -74,35 +112,31 @@ public class FenetreChronometre extends JFrame {
 		nbMinutes.setEditable(false);
 		nbMinutes.setFont(new Font("Tahoma", Font.PLAIN, 36));
 		nbMinutes.setForeground(Color.RED);
-		nbMinutes.setText("00");
+		nbMinutes.setText(getValueOf(minutes));
 		panel_2.add(nbMinutes);
 		nbMinutes.setColumns(2);
 		
-		textMinutes = new JLabel("Min");
+		textMinutes = new JLabel(onSeconde?"Min":"sec");
 		panel_2.add(textMinutes);
-		
+
 		nbSecondes = new JTextField();
 		nbSecondes.setHorizontalAlignment(SwingConstants.CENTER);
 		nbSecondes.setEditable(false);
 		nbSecondes.setFont(new Font("Tahoma", Font.PLAIN, 36));
 		nbSecondes.setForeground(Color.RED);
-		nbSecondes.setText("00");
+		nbSecondes.setText(getValueOf(seconde));
 		panel_2.add(nbSecondes);
 		nbSecondes.setColumns(2);
-		
-		textSecondes = new JLabel("Sec");
+			
+		textSecondes = new JLabel(onSeconde?"Sec":"1/100");
 		panel_2.add(textSecondes);
-		  
-		onSeconde = true;
 		
 		plus.addActionListener(new ClicPlus());
 		moins.addActionListener(new ClicMoins());
 		capture.addActionListener(new ClicCapture());
 		reset.addActionListener(new ClicReset());
 		choixMesure.addActionListener(new ClicChoixMesure());
-		
-		seconde = 0;
-		minutes = 0;
+
 		pack();
 		setVisible(true);
 	}
@@ -217,7 +251,6 @@ public class FenetreChronometre extends JFrame {
 				plus.setEnabled(true);
 				choixMesure.setEnabled(true);
 				moins.setEnabled(false);
-				t.stop();
 			}
 		}
 	}
@@ -244,7 +277,74 @@ public class FenetreChronometre extends JFrame {
 		}
 	}
 	
-	public String getValueOf(int value)
+	private class ActionClose extends WindowAdapter
+	{
+
+		@Override
+		public synchronized void windowClosing(WindowEvent arg0)
+		{
+			System.out.println("[INFORMATION] Démarrage de la procédure de sauvegarde");
+			String nom = "chronometre.ser";
+			boolean succes = true;
+			File file = new File(nom);
+			ObjectOutputStream flotEcriture = null;
+			if(file.exists())
+				file.delete();
+			
+			try
+			{
+				file.createNewFile();
+			}
+			catch (IOException e)
+			{
+				succes = false;
+				System.out.println("[ERREUR] création impossible du fichis " + nom + ".");
+			}
+			if(succes)
+			{
+				try
+				{
+					 flotEcriture = new ObjectOutputStream(new FileOutputStream(file));
+				}
+				catch (IOException e)
+				{
+					succes = false;
+					System.out.println("[ERREUR] Impossible d'ouvrir " + nom + " en lecture / écriture.");
+				}
+				if(succes)
+				{
+					String[] valMinuteur = minuteur.getText().split(":");
+					EtatChronometre etat = new EtatChronometre().setActualTime(minutes, seconde).setCaptureTime(Integer.parseInt(valMinuteur[0]), Integer.parseInt(valMinuteur[1])).setMode(onSeconde);
+					try
+					{
+						flotEcriture.writeObject(etat);
+					}
+					catch (IOException e)
+					{
+						succes = false;
+						System.out.println("[ERREUR] Impossible d'écrire dans le fichier " + nom + ".");
+					}
+					
+					if(succes && flotEcriture != null)
+					{
+						try
+						{
+							flotEcriture.flush();
+							flotEcriture.close();
+						}
+						catch (IOException e)
+						{
+							succes = false;
+							System.out.println("[ERREUR] Impossible de fermer le fichier " + nom + ". La sauvegarde a peu être réussis.");
+						}
+					}
+				}
+			}
+
+		}
+	}
+	
+	public static String getValueOf(int value)
 	{
 		String temps ="";
 		if(value < 10)

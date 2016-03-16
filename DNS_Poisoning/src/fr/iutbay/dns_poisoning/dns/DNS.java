@@ -1,7 +1,20 @@
 package fr.iutbay.dns_poisoning.dns;
 
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * @author Florian & Joey
+ * @version A0.0.2
+ * Creation : 29/02/2016
+ * Last modification : 29/02/2016
+ * 
+ * Class of DNS.
+ */
 public class DNS
 {
+	public static Map<String, DNS_simulator> listDNS = new HashMap<String, DNS_simulator>();
+	
 	/** DNS server in charge of .com domain */
 	public static DNS_simulator com = new DNS_simulator("com", 12);
 	/** DNS server in charge of .fr domain */
@@ -31,6 +44,16 @@ public class DNS
 	}
 	
 	/**
+	 * reference the DNS
+	 * @param key <i>(String)</i> name of the DNS (DNS_simulator.getName())
+	 * @param dns <i>(DNS_simulator)</i> DNS to refere
+	 */
+	public static void referenceDNS(String key, DNS_simulator dns)
+	{
+		listDNS.put(key, dns);
+	}
+	
+	/**
 	 * give the first ip find for the url given.
 	 * Your not suppose to use this. If you looking for a specific url, use "requestIp" from the class DNS_simulator
 	 * @param name <i>(String)</i> name is the DNS where you want to request.
@@ -41,6 +64,15 @@ public class DNS
 	public static String askIpTo(String name, String url, int lastIndex)
 	{
 		String ip;
+		/*if(listDNS.containsKey(name))
+		{
+			ip = listDNS.get(name).requestIP(url, lastIndex);
+		}
+		else
+		{
+			ip = "404";
+		}*/
+		
 		if(name.equalsIgnoreCase("myDNS"))
 			ip = myDNS.requestIP(url, lastIndex);
 		else if(name.equalsIgnoreCase("com"))
